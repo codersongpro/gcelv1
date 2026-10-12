@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { TOOLS, cardById } from "@/content/cards";
 import { CHAPTERS } from "@/content/chapters";
 import { DOMAINS, QUESTIONS, type Domain } from "@/content/questions";
@@ -9,6 +8,7 @@ import { SITE } from "@/lib/site";
 import { useStore } from "@/lib/store";
 import { HeroArt } from "./Deco";
 import Maker from "./Maker";
+import NameEditor from "./NameEditor";
 
 const SCHEDULE = [
   ["09:00–09:20", "오리엔테이션: 시험 구조, 코스 사용법, 주인공 정하기"],
@@ -23,12 +23,7 @@ const SCHEDULE = [
 ];
 
 export default function HomeView() {
-  const { state, update, name, ready } = useStore();
-  const [draft, setDraft] = useState("");
-  useEffect(() => { if (ready) setDraft(state.teacherName ?? ""); }, [ready, state.teacherName]);
-
-  const saveName = () => update((s) => ({ ...s, teacherName: draft.trim() || null }));
-  const resetName = () => { setDraft(""); update((s) => ({ ...s, teacherName: null })); };
+  const { state, name } = useStore();
 
   const domainCount = (d: Domain) => QUESTIONS.filter((q) => q.domain === d).length;
 
@@ -60,18 +55,13 @@ export default function HomeView() {
           <div className="card" style={{ padding: 24 }}>
             <h3 style={{ fontSize: 19 }}>이야기 주인공 정하기</h3>
             <p className="muted small" style={{ marginTop: 6 }}>
-              모든 장의 상황 이야기에 이 이름이 나옵니다. 내 이름을 넣으면 내 이야기처럼 읽힙니다. 바꾼 이름은 이 브라우저에만 저장됩니다.
+              모든 장의 상황 이야기에 이 이름이 나옵니다. 내 이름을 넣으면 내 이야기처럼 읽힙니다.
+              처음 접속할 때 정한 이름은 아래 버튼으로 언제든 다시 바꿀 수 있고, 이 브라우저에만 저장됩니다.
             </p>
-            <form className="field" onSubmit={(e) => { e.preventDefault(); saveName(); }}>
-              <label htmlFor="tname" className="small" style={{ fontWeight: 700 }}>주인공 이름 (기본값: {SITE.teacherName})</label>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                <input id="tname" value={draft} maxLength={12} placeholder={SITE.teacherName}
-                  onChange={(e) => setDraft(e.target.value)} style={{ flex: "1 1 160px" }} />
-                <button className="btn" type="submit">저장</button>
-                <button className="btn ghost" type="button" onClick={resetName}>기본값</button>
-              </div>
-            </form>
-            <p style={{ marginTop: 14 }}>지금 주인공: <strong>{name} 선생님</strong></p>
+            <div style={{ marginTop: 16, display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+              <span>지금 주인공:</span>
+              <NameEditor />
+            </div>
           </div>
           <div className="card" style={{ padding: 24 }}>
             <h3 style={{ fontSize: 19 }}>한 장은 이렇게 진행합니다</h3>

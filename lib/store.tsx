@@ -11,6 +11,7 @@ export type ExamResult = { at: string; mode: "practice" | "exam"; score: number;
 
 type State = {
   teacherName: string | null;
+  onboarded: boolean;
   instructor: boolean;
   cards: Record<string, boolean>;
   missions: Record<string, boolean>;
@@ -18,7 +19,7 @@ type State = {
   exam: ExamResult | null;
 };
 
-const EMPTY: State = { teacherName: null, instructor: false, cards: {}, missions: {}, answers: {}, exam: null };
+const EMPTY: State = { teacherName: null, onboarded: false, instructor: false, cards: {}, missions: {}, answers: {}, exam: null };
 
 function load(): State {
   try {

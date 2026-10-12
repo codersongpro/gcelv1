@@ -261,3 +261,10 @@ dialog.lightbox::backdrop { background: rgba(32, 33, 36, 0.82); }
 .dev-meta { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; margin: 12px 0 0; font-size: 15px; }
 .dev-meta dt { font-weight: 700; color: var(--muted); }
 .dev-meta dd { margin: 0; }
+
+/* 주인공 이름 바꾸기 */
+.name-btn { color: var(--blue); border-color: #aecbfa; background: var(--blue-tint); }
+dialog.name-dialog { border: 0; border-radius: var(--radius); padding: 24px; width: min(440px, calc(100vw - 32px)); box-shadow: var(--shadow-lg); }
+dialog.name-dialog::backdrop { background: rgba(32, 33, 36, 0.5); }
+dialog.name-dialog h3 { font-size: 20px; font-weight: 800; }
+dialog.name-dialog .field input { width: 100%; }

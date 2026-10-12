@@ -1,0 +1,13 @@
+{
+  "teacherName": "김오송",
+  "courseTitle": "구글 인증 교육자 Level 1 부트캠프",
+  "examMinutes": 45,
+  "passPercent": 80,
+  "certificationUrl": "https://educertifications.google/",
+  "author": {
+    "name": "송동석(Dustin)",
+    "role": "Teacher / App developer / Data analyst",
+    "contact": "dungst.me@gmail.com",
+    "year": "2026"
+  }
+}

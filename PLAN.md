@@ -1,4 +1,6 @@
-# 구글 인증 교육자 Level 1 부트캠프 웹 코스웨어 제작 계획 (v2)
+# 구글 인증 교육자 Level 1 부트캠프 웹 코스웨어 제작 계획 (v3, 구현 완료)
+
+> 결정 사항: 연수 참여자 전용 배포(SITE_PASSWORD 비밀번호 + noindex), 장마다 "실습 → 문제 풀이" 순서, 주인공 기본 이름 김오송(site.config.json), 제작자 송동석(Dustin), 마지막 페이지에 공식 시험 사이트 https://educertifications.google/ 연결.
 
 ## 0. 입력 자료
 | 자료 | 내용 | 활용 |

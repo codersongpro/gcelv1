@@ -268,3 +268,14 @@ dialog.name-dialog { border: 0; border-radius: var(--radius); padding: 24px; wid
 dialog.name-dialog::backdrop { background: rgba(32, 33, 36, 0.5); }
 dialog.name-dialog h3 { font-size: 20px; font-weight: 800; }
 dialog.name-dialog .field input { width: 100%; }
+
+/* 시험 팁 */
+.tip { padding: 22px; display: grid; gap: 12px; align-content: start; }
+.tip h3 { font-size: 19px; font-weight: 800; }
+.tip ol { margin: 0; padding-left: 22px; display: grid; gap: 4px; font-size: 15px; }
+.tip-keys { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+.tip-keys > div { display: flex; align-items: center; gap: 8px; }
+.keys { display: inline-flex; align-items: center; }
+.keys .plus { margin: 0 4px; color: var(--muted); font-weight: 700; }
+kbd { display: inline-block; min-width: 32px; text-align: center; padding: 4px 9px; font: 700 14px/1.2 var(--font); color: var(--ink); background: #fff; border: 1px solid var(--line); border-bottom-width: 3px; border-radius: 8px; }
+.tip > .pill { justify-self: start; }

@@ -19,7 +19,6 @@ const MAX_EXAMS = 200;
 type State = {
   teacherName: string | null;
   onboarded: boolean;
-  instructor: boolean;
   cards: Record<string, boolean>;
   missions: Record<string, boolean>;
   answers: Record<number, Answer>;
@@ -29,14 +28,16 @@ type State = {
 };
 
 const EMPTY: State = {
-  teacherName: null, onboarded: false, instructor: false, cards: {}, missions: {}, answers: {}, exam: null, attempts: [], exams: [],
+  teacherName: null, onboarded: false, cards: {}, missions: {}, answers: {}, exam: null, attempts: [], exams: [],
 };
 
 function load(): State {
   try {
     const raw = window.localStorage.getItem(KEY);
     if (!raw) return EMPTY;
-    const s: State = { ...EMPTY, ...JSON.parse(raw) };
+    // 예전 버전이 남긴 instructor(강사 모드) 값은 버린다.
+    const { instructor: _drop, ...saved } = JSON.parse(raw);
+    const s: State = { ...EMPTY, ...saved };
     // 이력 기능 이전에 저장된 최근 모의고사 1회는 이력의 첫 줄로 옮긴다.
     if (s.exams.length === 0 && s.exam) s.exams = [s.exam];
     return s;

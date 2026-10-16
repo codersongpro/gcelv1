@@ -15,7 +15,6 @@ export type Chapter = {
   missions: string[];
   cards: string[];
   questions: number[];
-  facilitator: string[];
 };
 
 export const CHAPTERS: Chapter[] = [
@@ -39,11 +38,6 @@ export const CHAPTERS: Chapter[] = [
     cards: ["gmail-search", "gmail-snooze", "gmail-conversation", "gmail-filter", "gmail-priority", "gmail-compose",
       "cal-attach", "cal-meet", "cal-reminder", "cal-guests", "cal-new", "cal-due", "cal-appointment", "cal-tasks"],
     questions: [6, 14, 30, 7, 12, 16, 25, 28],
-    facilitator: [
-      "시작 전에 연수생끼리 짝을 지어 서로에게 메일 2~3통을 보내게 하면 검색·필터 실습이 살아납니다.",
-      "16번(공개 캘린더)은 '구독'과 헷갈리기 쉽습니다. '내 것을 새로 만든다 vs 남의 것을 가져온다'로 구분해 주세요.",
-      "권장 시간: 실습 30분, 문제 풀이와 해설 20분.",
-    ],
   },
   {
     id: "2", no: "02", day: "월요일 오후 3:30", title: "자료실 대청소", subtitle: "Drive · Sheets",
@@ -63,10 +57,6 @@ export const CHAPTERS: Chapter[] = [
     ],
     cards: ["drive-folder-color", "drive-convert", "drive-drag", "drive-shared-folder", "sheets-collab", "sheets-owner"],
     questions: [5, 8, 18, 29, 32, 31, 26],
-    facilitator: [
-      "업로드 변환은 이미 올린 파일에는 적용되지 않는다는 점을 짚어 주세요.",
-      "26번은 '수정 못 하게'라는 조건에서 뷰어가 정답입니다. 댓글 작성자와 비교해 주세요.",
-    ],
   },
   {
     id: "3", no: "03", day: "화요일 1교시 공강", title: "가정통신문 만들기", subtitle: "Docs",
@@ -88,11 +78,6 @@ export const CHAPTERS: Chapter[] = [
     cards: ["docs-new", "docs-camera", "docs-share", "docs-suggest", "docs-comment", "docs-translate", "docs-version",
       "docs-secure", "docs-force-copy", "docs-template", "docs-owner", "docs-screenreader"],
     questions: [1, 2, 3, 35, 36, 10],
-    facilitator: [
-      "3번(의견·제안 → 댓글 작성자)과 36번(직접 다시 쓰기 → 편집자)을 나란히 비교하면 오답이 크게 줄어듭니다.",
-      "35번은 '다른 데이터를 건드리지 않고'라는 조건이 핵심입니다. 복원 대신 복사·붙여넣기를 직접 해 보게 하세요.",
-      "웹캠이 없는 기기에서는 카메라 메뉴 위치만 확인하게 합니다.",
-    ],
   },
   {
     id: "4", no: "04", day: "수요일 방과 후", title: "수업 발표 자료와 학급 홈페이지", subtitle: "Slides · Sites",
@@ -113,10 +98,6 @@ export const CHAPTERS: Chapter[] = [
     cards: ["slides-media", "slides-theme", "slides-captions", "slides-comment",
       "sites-new", "sites-pages", "sites-content", "sites-font", "sites-thumb", "sites-share"],
     questions: [23, 11, 20, 34, 37],
-    facilitator: [
-      "34번(썸네일 → 삽입)과 37번(메뉴에서 외부로 이동 → 새 링크)을 구별하게 해 주세요.",
-      "자막은 마이크 권한이 필요합니다. 연수장 소음이 크면 한 명씩 시연합니다.",
-    ],
   },
   {
     id: "5", no: "05", day: "목요일 오전", title: "클래스룸 개설과 평가", subtitle: "Classroom · Forms",
@@ -138,10 +119,6 @@ export const CHAPTERS: Chapter[] = [
       "classroom-rubric", "classroom-grade-rubric", "classroom-differentiate",
       "forms-new", "forms-questions", "forms-quiz", "forms-collab", "forms-sheets"],
     questions: [4, 27],
-    facilitator: [
-      "학생 계정이 없으면 연수생끼리 학생 역할로 서로의 수업에 참여하게 하세요.",
-      "Forms는 퀴즈 A 문항에는 없지만 실기 과제에 자주 나옵니다. 실습 시간을 충분히 주세요.",
-    ],
   },
   {
     id: "6", no: "06", day: "목요일 저녁 7:00", title: "원격 수업과 연수", subtitle: "Meet",
@@ -158,10 +135,6 @@ export const CHAPTERS: Chapter[] = [
     ],
     cards: ["meet-invite", "meet-tab", "meet-hand", "meet-record", "meet-recordings"],
     questions: [13, 21, 22, 24, 33],
-    facilitator: [
-      "녹화는 계정 유형(Education 버전)에 따라 쓸 수 없을 수 있습니다. 메뉴 위치만 확인해도 됩니다.",
-      "13번은 탭 공유와 창 공유의 차이를 직접 보여 주면 바로 이해합니다.",
-    ],
   },
   {
     id: "7", no: "07", day: "금요일 아침 조회 전", title: "교무실 실시간 소통", subtitle: "Chat",
@@ -177,7 +150,6 @@ export const CHAPTERS: Chapter[] = [
     ],
     cards: ["chat-new", "chat-space", "chat-send"],
     questions: [9, 15, 17],
-    facilitator: ["Chat 문항은 대부분 '실시간 메시지와 자료 공유 = Chat'이라는 한 가지 원리로 풀립니다."],
   },
   {
     id: "8", no: "08", day: "금요일 오후", title: "모두를 위한 교실", subtitle: "접근성 · Chromebook",
@@ -193,10 +165,6 @@ export const CHAPTERS: Chapter[] = [
     ],
     cards: ["cb-chromevox", "cb-magnifier", "docs-screenreader", "docs-translate", "slides-captions"],
     questions: [19],
-    facilitator: [
-      "19번은 다답형입니다. '시각장애 → 스크린 리더, 다른 언어 → 번역'처럼 학생 유형과 기능을 짝짓게 하세요.",
-      "Chromebook이 없으면 Chrome 웹 스토어의 화면 읽기 확장 프로그램이나 영상으로 대신합니다.",
-    ],
   },
 ];
 

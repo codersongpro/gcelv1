@@ -38,6 +38,10 @@ export default function ChapterView({ ch }: { ch: Chapter }) {
           <p className="small muted">
             미션 {missionsDone}/{ch.missions.length} · 실습 카드 {cardsDone}/{cards.length} · 문제 정답 {correct}/{ch.questions.length}
           </p>
+          <div className="q-actions">
+            <Link className="btn" href={`/ch/${ch.id}/present`}>▶ 발표 모드로 보기</Link>
+            <span className="small muted">실습 과정과 문제를 화면 가득 크게 보여 줍니다.</span>
+          </div>
         </div>
       </section>
 
@@ -46,12 +50,6 @@ export default function ChapterView({ ch }: { ch: Chapter }) {
         <div className="card story">
           {ch.story.map((p, i) => <p key={i}>{fill(p, name)}</p>)}
         </div>
-        {state.instructor && (
-          <div className="facil">
-            <h4>강사 메모 · 권장 {ch.minutes}분</h4>
-            <ul>{ch.facilitator.map((f, i) => <li key={i}>{f}</li>)}</ul>
-          </div>
-        )}
       </section>
 
       <section className="wrap section">
@@ -86,6 +84,7 @@ export default function ChapterView({ ch }: { ch: Chapter }) {
         <div className="section-head">
           <span className="step-no">STEP 3</span><h2>실습 카드 따라 하기</h2>
           <span className="muted small">화면을 누르면 크게 볼 수 있습니다.</span>
+          <Link className="present-link" href={`/ch/${ch.id}/present#card-${ch.cards[0]}`}>▶ 실습 과정 발표</Link>
         </div>
         <div className="grid two">
           {cards.map((c, i) => <TaskCard key={c.id} card={c} index={i + 1} />)}
@@ -96,6 +95,7 @@ export default function ChapterView({ ch }: { ch: Chapter }) {
         <div className="section-head">
           <span className="step-no">STEP 4</span><h2>시험 문제 풀어 보기</h2>
           <span className="muted small">실습한 내용이 실제 시험에서 이렇게 나옵니다.</span>
+          <Link className="present-link" href={`/ch/${ch.id}/present#q-${ch.questions[0]}`}>▶ 문제 발표</Link>
         </div>
         <div className="grid">
           {ch.questions.map((n) => <QuestionCard key={n} q={questionByNo(n)} />)}

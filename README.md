@@ -7,7 +7,7 @@
 - 실습 카드 65장: Google Level 1 Task Cards(2025-08-07)의 스크린샷 포함
 - 퀴즈 A 37문항: 장별 연습, 최종 모의고사(연습/실전 모드, 타이머), 오답 노트
 - 마지막 페이지에서 실제 시험 사이트(https://educertifications.google/)로 연결
-- 강사 모드: 장별 진행 메모와 권장 시간 표시
+- 발표 모드: 장마다 상황·미션·실습 카드·문제를 화면 가득 큰 슬라이드로 보여 줌(←/→ 이동, Enter 정답 공개, F 전체 화면, Esc 나가기)
 - 풀이 기록: 문항마다 마지막으로 고른 보기와 지난 시도(틀린 기록 포함)가 남고, "풀이 기록" 페이지에서 모의고사 회차·장별·문항별 정답률을 보고 CSV로 내려받을 수 있음
 - 진도와 답안은 브라우저(localStorage)에만 저장하며 서버로 보내지 않음
 
@@ -50,7 +50,7 @@ SITE_PASSWORD=1234 npm run build && SITE_PASSWORD=1234 npm start   # 운영과 �
 
 | 파일 | 내용 |
 |---|---|
-| `content/chapters.ts` | 장별 상황 이야기(`{T}` = 주인공 이름), 실습 미션, 카드·문항 배치, 강사 메모 |
+| `content/chapters.ts` | 장별 상황 이야기(`{T}` = 주인공 이름), 실습 미션, 카드·문항 배치, 권장 시간 |
 | `content/cards.ts` | 실습 카드 65장(한국어 단계, 원본 쪽수) |
 | `content/questions.ts` | 37문항, 정답, 해설, 시험 영역, 관련 카드 |
 | `public/images/cards/` | 카드 스크린샷 (`python3 scripts/extract_screenshots.py`로 원본 PDF에서 다시 추출) |

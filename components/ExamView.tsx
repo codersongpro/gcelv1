@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { DOMAINS, QUESTIONS, type Domain, type Question } from "@/content/questions";
 import { SITE } from "@/lib/site";
-import { useStore } from "@/lib/store";
+import { recordAttempts, recordExam, useStore } from "@/lib/store";
 import { MARKS, Options, Refs, sameSet, toggleSel } from "./QuestionCard";
 
 type Mode = "practice" | "exam";
@@ -52,15 +52,10 @@ export default function ExamView() {
   const finish = useCallback(() => {
     const results = list.map((q) => ({ q, ok: sameSet(sel[q.no] ?? [], q.answer) }));
     const score = results.filter((r) => r.ok).length;
-    update((s) => {
-      const answers = { ...s.answers };
-      results.forEach(({ q, ok }) => { answers[q.no] = { sel: sel[q.no] ?? [], ok }; });
-      return {
-        ...s,
-        answers,
-        exam: { at: new Date().toISOString(), mode, score, total: list.length, wrong: results.filter((r) => !r.ok).map((r) => r.q.no) },
-      };
-    });
+    update((s) => recordExam(
+      recordAttempts(s, results.map(({ q, ok }) => ({ no: q.no, sel: sel[q.no] ?? [], ok })), "exam"),
+      { at: new Date().toISOString(), mode, score, total: list.length, wrong: results.filter((r) => !r.ok).map((r) => r.q.no) },
+    ));
     setPhase("done");
     window.scrollTo({ top: 0 });
   }, [list, sel, mode, update]);
@@ -108,7 +103,7 @@ export default function ExamView() {
             <button className="btn" type="button" onClick={() => start()}>시작하기</button>
             {state.exam && (
               <span className="small muted">
-                최근 결과: {state.exam.score}/{state.exam.total} ({new Date(state.exam.at).toLocaleString("ko-KR")})
+                최근 결과: {state.exam.score}/{state.exam.total} ({new Date(state.exam.at).toLocaleString("ko-KR")}) · <Link href="/history">전체 기록 보기</Link>
               </span>
             )}
           </div>

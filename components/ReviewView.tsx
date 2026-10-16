@@ -23,8 +23,9 @@ export default function ReviewView() {
         <div className="q-actions">
           <Link className="btn" href="/exam">오답만 모의고사로 풀기</Link>
           <button className="btn ghost" type="button" onClick={() => {
-            if (window.confirm("문항 풀이 기록을 모두 지울까요? 실습 진도는 그대로 남습니다.")) update((s) => ({ ...s, answers: {}, exam: null }));
-          }}>풀이 기록 지우기</button>
+            if (window.confirm("오답 노트를 비울까요? '내 풀이 기록'의 이력과 실습 진도는 그대로 남습니다.")) update((s) => ({ ...s, answers: {}, exam: null }));
+          }}>오답 노트 비우기</button>
+          <Link className="btn ghost" href="/history">내 풀이 기록</Link>
         </div>
       </div>
 
@@ -38,7 +39,7 @@ export default function ReviewView() {
             return (
               <div key={q.no}>
                 {ch && <p className="small muted" style={{ margin: "0 0 6px 4px" }}>{ch.no}. {ch.title}</p>}
-                <QuestionCard q={q} />
+                <QuestionCard q={q} src="review" />
               </div>
             );
           })}

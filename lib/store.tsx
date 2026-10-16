@@ -8,6 +8,13 @@ const KEY = "gce-l1-bootcamp:v1";
 
 export type Answer = { sel: number[]; ok: boolean };
 export type ExamResult = { at: string; mode: "practice" | "exam"; score: number; total: number; wrong: number[] };
+// 풀이 이력: 채점할 때마다 한 줄씩 쌓인다. 오답 노트를 비워도 지워지지 않는다.
+export type AttemptSource = "chapter" | "review" | "exam";
+export type Attempt = { at: string; no: number; sel: number[]; ok: boolean; src: AttemptSource };
+
+// 브라우저 저장 용량(약 5MB)을 넘지 않도록 오래된 기록부터 버린다.
+const MAX_ATTEMPTS = 3000;
+const MAX_EXAMS = 200;
 
 type State = {
   teacherName: string | null;
@@ -17,17 +24,38 @@ type State = {
   missions: Record<string, boolean>;
   answers: Record<number, Answer>;
   exam: ExamResult | null;
+  attempts: Attempt[];
+  exams: ExamResult[];
 };
 
-const EMPTY: State = { teacherName: null, onboarded: false, instructor: false, cards: {}, missions: {}, answers: {}, exam: null };
+const EMPTY: State = {
+  teacherName: null, onboarded: false, instructor: false, cards: {}, missions: {}, answers: {}, exam: null, attempts: [], exams: [],
+};
 
 function load(): State {
   try {
     const raw = window.localStorage.getItem(KEY);
-    return raw ? { ...EMPTY, ...JSON.parse(raw) } : EMPTY;
+    if (!raw) return EMPTY;
+    const s: State = { ...EMPTY, ...JSON.parse(raw) };
+    // 이력 기능 이전에 저장된 최근 모의고사 1회는 이력의 첫 줄로 옮긴다.
+    if (s.exams.length === 0 && s.exam) s.exams = [s.exam];
+    return s;
   } catch {
     return EMPTY;
   }
+}
+
+// 채점 결과를 오답 노트(문항별 마지막 답)와 풀이 이력에 함께 남긴다.
+export function recordAttempts(s: State, items: { no: number; sel: number[]; ok: boolean }[], src: AttemptSource): State {
+  const at = new Date().toISOString();
+  const answers = { ...s.answers };
+  items.forEach(({ no, sel, ok }) => { answers[no] = { sel, ok }; });
+  const attempts = [...s.attempts, ...items.map((x) => ({ at, src, ...x }))].slice(-MAX_ATTEMPTS);
+  return { ...s, answers, attempts };
+}
+
+export function recordExam(s: State, exam: ExamResult): State {
+  return { ...s, exam, exams: [...s.exams, exam].slice(-MAX_EXAMS) };
 }
 
 type Ctx = {

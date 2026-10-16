@@ -5,7 +5,7 @@ import { useState } from "react";
 import { cardById } from "@/content/cards";
 import { CHAPTERS } from "@/content/chapters";
 import { DOMAINS, type Question } from "@/content/questions";
-import { useStore } from "@/lib/store";
+import { recordAttempts, useStore, type AttemptSource } from "@/lib/store";
 
 export const MARKS = ["①", "②", "③", "④", "⑤"];
 
@@ -58,19 +58,26 @@ export function toggleSel(q: Question, sel: number[], i: number) {
   return [i];
 }
 
-// 연습용 문항: 고르고 채점하면 바로 해설과 관련 실습 카드를 보여 준다. 결과는 오답 노트에 쓰인다.
-export default function QuestionCard({ q }: { q: Question }) {
+const when = (iso: string) => new Date(iso).toLocaleString("ko-KR", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
+
+// 연습용 문항: 고르고 채점하면 바로 해설과 관련 실습 카드를 보여 준다.
+// 마지막으로 고른 보기는 다시 들어와도 그대로 보이고, 지난 시도(틀린 것 포함)는 문항 아래에 남는다.
+export default function QuestionCard({ q, src = "chapter" }: { q: Question; src?: AttemptSource }) {
   const { state, update } = useStore();
   const saved = state.answers[q.no];
-  const [sel, setSel] = useState<number[]>([]);
-  const [checked, setChecked] = useState(false);
+  const tries = state.attempts.filter((a) => a.no === q.no);
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState<number[]>([]);
+  const checked = !!saved && !editing;
+  const sel = checked ? saved.sel : draft;
   const multi = q.answer.length > 1;
   const ok = sameSet(sel, q.answer);
+  const wrongTries = tries.filter((a) => !a.ok).length;
   const d = DOMAINS[q.domain];
 
   function grade() {
-    setChecked(true);
-    update((s) => ({ ...s, answers: { ...s.answers, [q.no]: { sel, ok: sameSet(sel, q.answer) } } }));
+    update((s) => recordAttempts(s, [{ no: q.no, sel: draft, ok: sameSet(draft, q.answer) }], src));
+    setEditing(false);
   }
 
   return (
@@ -79,30 +86,47 @@ export default function QuestionCard({ q }: { q: Question }) {
         <span className="q-no">문항 {q.no}</span>
         <span className="chip" style={{ background: "#f1f3f4", color: d.color }}>{d.no} {d.name}</span>
         {multi && <span className="chip" style={{ background: "#fef7e0", color: "#7a4f01" }}>{q.answer.length}개 선택</span>}
-        {saved && !checked && (
-          <span className="chip" style={{ background: saved.ok ? "#e6f4ea" : "#fce8e6", color: saved.ok ? "#188038" : "#c5221f" }}>
-            지난 풀이 {saved.ok ? "정답" : "오답"}
-          </span>
+        {wrongTries > 0 && (
+          <span className="chip" style={{ background: "#fce8e6", color: "#c5221f" }}>틀린 적 {wrongTries}번</span>
         )}
       </div>
       <p className="q-stem">{q.stem}</p>
-      <Options q={q} sel={sel} onToggle={(i) => setSel(toggleSel(q, sel, i))} reveal={checked} />
+      <Options q={q} sel={sel} onToggle={(i) => setDraft(toggleSel(q, draft, i))} reveal={checked} />
       <div className="q-actions">
         {!checked ? (
-          <button className="btn" type="button" disabled={multi ? sel.length !== q.answer.length : sel.length === 0} onClick={grade}>
-            채점하기
-          </button>
+          <>
+            <button className="btn" type="button" disabled={multi ? draft.length !== q.answer.length : draft.length === 0} onClick={grade}>
+              채점하기
+            </button>
+            {saved && <button className="btn ghost" type="button" onClick={() => setEditing(false)}>취소</button>}
+          </>
         ) : (
-          <button className="btn ghost" type="button" onClick={() => { setSel([]); setChecked(false); }}>다시 풀기</button>
+          <button className="btn ghost" type="button" onClick={() => { setDraft([]); setEditing(true); }}>다시 풀기</button>
         )}
         {multi && !checked && <span className="small muted">{q.answer.length}개를 고르면 채점할 수 있습니다.</span>}
       </div>
       {checked && (
         <div className={`feedback ${ok ? "ok" : "no"}`} role="status">
-          <strong>{ok ? "정답입니다!" : `오답입니다. 정답은 ${q.answer.map((i) => MARKS[i]).join(", ")}`}</strong>
+          <strong>
+            {ok ? "정답입니다!" : `오답입니다. 고른 답 ${sel.length ? sel.map((i) => MARKS[i]).join(", ") : "없음"} · 정답 ${q.answer.map((i) => MARKS[i]).join(", ")}`}
+          </strong>
           {q.explain}
           <Refs q={q} />
         </div>
+      )}
+      {tries.length > 0 && (
+        <details className="tries">
+          <summary>내 풀이 기록 {tries.length}회 (정답 {tries.length - wrongTries} · 오답 {wrongTries})</summary>
+          <ol>
+            {[...tries].reverse().map((a, i) => (
+              <li key={a.at + i} className={a.ok ? "o" : "x"}>
+                <b>{a.ok ? "○ 정답" : "× 오답"}</b>
+                <span>고른 답 {a.sel.length ? a.sel.map((n) => MARKS[n]).join(", ") : "없음"}</span>
+                <span className="muted">{when(a.at)}</span>
+              </li>
+            ))}
+          </ol>
+        </details>
       )}
     </article>
   );

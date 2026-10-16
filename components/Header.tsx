@@ -13,6 +13,7 @@ export default function Header() {
     ...CHAPTERS.map((c) => ({ href: `/ch/${c.id}`, label: c.no, title: `${c.no}. ${c.title} (${c.subtitle})` })),
     { href: "/exam", label: "모의고사" },
     { href: "/review", label: "오답 노트" },
+    { href: "/history", label: "풀이 기록" },
     { href: "/finish", label: "시험 응시" },
   ] as { href: string; label: string; title?: string }[];
 

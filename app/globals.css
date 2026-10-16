@@ -279,3 +279,30 @@ dialog.name-dialog .field input { width: 100%; }
 .keys .plus { margin: 0 4px; color: var(--muted); font-weight: 700; }
 kbd { display: inline-block; min-width: 32px; text-align: center; padding: 4px 9px; font: 700 14px/1.2 var(--font); color: var(--ink); background: #fff; border: 1px solid var(--line); border-bottom-width: 3px; border-radius: 8px; }
 .tip > .pill { justify-self: start; }
+
+/* 내 풀이 기록 */
+.stat-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 8px; }
+@media (min-width: 720px) { .stat-row { grid-template-columns: repeat(4, 1fr); } }
+.stat-row > div { background: #fff; border-radius: var(--radius-sm); padding: 12px 14px; display: grid; }
+.stat-row b { font-size: 26px; font-weight: 800; }
+.stat-row span { font-size: 13px; color: var(--muted); font-weight: 600; }
+.table-wrap { overflow-x: auto; padding: 4px 0; }
+.hist { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 520px; }
+.hist th, .hist td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--line-soft); white-space: nowrap; }
+.hist td:nth-child(2) { white-space: normal; }
+.hist th { font-size: 13px; color: var(--muted); font-weight: 700; }
+.hist tbody tr:last-child td { border-bottom: 0; }
+.hist tr.dim td { color: var(--muted); }
+.bar-row { display: flex; align-items: center; gap: 8px; }
+.bar-row .bar { flex: 1; min-width: 60px; }
+.ox { display: flex; gap: 4px; }
+.ox span { font-weight: 800; }
+.ox .o { color: var(--green); }
+.ox .x { color: #c5221f; }
+.tries { margin-top: 14px; font-size: 14px; border-top: 1px dashed var(--line); padding-top: 10px; }
+.tries summary { cursor: pointer; font-weight: 700; color: var(--ink-2); }
+.tries ol { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 4px; }
+.tries li { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 6px 10px; border-radius: 8px; background: var(--bg-soft); }
+.tries li.o b { color: var(--green); }
+.tries li.x { background: var(--red-tint); }
+.tries li.x b { color: #c5221f; }
